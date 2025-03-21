@@ -1,0 +1,84 @@
+﻿@using BlazorHybridApp.Components.Exceptions
+@using BlazorHybridApp.Components.Data
+@page "/todo"
+
+
+<h3>Todo List</h3>
+
+<!-- TODO: Design the GUI based on the provided image -->
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+<div>
+    <input @bind="newItem" placeholder="Enter a new Todo to your list:" style="width:300px; height: 37.33px;" />
+    <button type="button" class="btn btn-primary" @onclick="AddItem">Add</button>
+
+    <ul class="list-unstyled">
+        <h3>Todo</h3>
+
+        @foreach (var item in items)
+        {     
+            if (!item.isDone)
+            {
+                <li>
+                    <input type="checkbox" @bind="item.isDone"/>
+                    <label>@item.title</label>
+                    <button type="button" @onclick="() => RemoveItem(item)" class="btn btn-danger" style="margin-top: 5px;">Delete</button>
+                </li>  
+            }
+        }
+    </ul>
+    <ul class="list-unstyled">
+        <h3>Done</h3>
+        @foreach (var item in items)
+        {
+            if (item.isDone)
+            {
+                <li>
+                    <label style="margin-left: 17px;">@item.title</label>
+                    <button type="button" @onclick="() => RemoveItem(item)" class="btn btn-danger" style="margin-top: 5px;">Delete</button>
+                </li>
+            }
+        }
+
+
+    </ul>
+
+</div>
+
+
+@code
+{
+
+    private string newItem;
+    private List<TodoItem> items = new List<TodoItem>();
+    string errorMessage;
+
+    private void AddItem()
+    {
+        // TODO: Add exception handling for invalid input (e.g., special characters)
+        try
+        {
+            if (newItem.Contains("@") || newItem.Contains("#") || newItem.Contains("$") || newItem.Contains("%"))
+            {
+                throw new InvalidSpecialCharacterInput("Invalid option");
+            }
+            items.Add(new TodoItem { title = newItem, isDone = false });
+            newItem = string.Empty;
+            errorMessage = string.Empty;
+        }
+        catch(InvalidSpecialCharacterInput ex)
+        {
+           errorMessage = ex.Message;
+        }
+    }
+    public void RemoveItem(TodoItem item)
+    {
+        items.Remove(item);
+
+    }
+
+}
