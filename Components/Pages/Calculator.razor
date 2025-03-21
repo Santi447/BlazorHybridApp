@@ -25,10 +25,18 @@
     private double input2;
     private double result;
 
-    private void Add()
+    private async void Add()
     {
         // TODO: Add exception handling for invalid input
-        result = input1 + input2;
+        try
+        {
+
+            result = input1 + input2;
+        }
+        catch(FormatException ex)
+        {
+            await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+        }
     }
 
     private void Subtract()
@@ -43,16 +51,25 @@
         result = input1 * input2;
     }
 
-    private void Divide()
+    private async void Divide()
     {
+
         // TODO: Add exception handling for division by zero and invalid input
-        if (input2 != 0)
+        try
         {
-            result = input1 / input2;
+            if (input2 != 0)
+            {
+                result = input1 / input2;
+            }
+            else
+            {
+                // TODO: Handle divide by zero exception
+                throw new DivideByZeroException();
+            }
         }
-        else
+        catch(DivideByZeroException ex)
         {
-            // TODO: Handle divide by zero exception
+            await App.Current.MainPage.DisplayAlert("Error",ex.Message,"Ok");
         }
     }
 }
