@@ -9,6 +9,6 @@ namespace BlazorHybridApp.Components.Data
     public class TodoItem
     {
         public bool isDone {  get; set; } = false;
-        public string title { get; set; }
+        public string? title { get; set; }
     }
 }

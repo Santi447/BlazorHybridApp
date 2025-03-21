@@ -16,9 +16,8 @@
     <input @bind="newItem" placeholder="Enter a new Todo to your list:" style="width:300px; height: 37.33px;" />
     <button type="button" class="btn btn-primary" @onclick="AddItem">Add</button>
 
+    <h3>Todo</h3>
     <ul class="list-unstyled">
-        <h3>Todo</h3>
-
         @foreach (var item in items)
         {     
             if (!item.isDone)
@@ -31,8 +30,8 @@
             }
         }
     </ul>
+    <h3>Done</h3>
     <ul class="list-unstyled">
-        <h3>Done</h3>
         @foreach (var item in items)
         {
             if (item.isDone)
@@ -53,18 +52,22 @@
 @code
 {
 
-    private string newItem;
+    private string? newItem;
     private List<TodoItem> items = new List<TodoItem>();
-    string errorMessage;
+    private string? errorMessage;
 
     private void AddItem()
     {
         // TODO: Add exception handling for invalid input (e.g., special characters)
         try
         {
+            if (string.IsNullOrEmpty(newItem))
+            {
+                throw new ArgumentNullException();
+            }
             if (newItem.Contains("@") || newItem.Contains("#") || newItem.Contains("$") || newItem.Contains("%"))
             {
-                throw new InvalidSpecialCharacterInput("Invalid option");
+                throw new InvalidSpecialCharacterInput("Todo item contains invalid characters. These are not allowed @ # $ %");
             }
             items.Add(new TodoItem { title = newItem, isDone = false });
             newItem = string.Empty;
@@ -72,7 +75,11 @@
         }
         catch(InvalidSpecialCharacterInput ex)
         {
-           errorMessage = ex.Message;
+            errorMessage = ex.Message;
+        }
+        catch (ArgumentNullException e)
+        {
+            errorMessage = e.Message;
         }
     }
     public void RemoveItem(TodoItem item)
