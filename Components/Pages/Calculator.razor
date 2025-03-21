@@ -1,20 +1,23 @@
 ﻿@page "/calculator"
 
-<h3>Calculator</h3>
+<h3 style ="color: lime;" class="fw-bold">Blazor Calculator</h3>
+<hr />
 
 <!-- TODO: Implement the calculator's GUI -->
 <div>
-    <input @bind="input1" placeholder="Enter first number" />
-    <input @bind="input2" placeholder="Enter second number" />
-
-    <button @onclick="Add">Add</button>
-    <button @onclick="Subtract">Subtract</button>
-    <button @onclick="Multiply">Multiply</button>
-    <button @onclick="Divide">Divide</button>
-
+    <span class="fw-bold">Enter First Number</span>
+    <input @bind="input1" placeholder="Enter first number" style="margin-left: 43px;"/><br />
+    <span class="fw-bold">Enter Second Number</span>
+    <input @bind="input2" placeholder="Enter second number" style="margin-left: 20px; margin: 20px;" />
     <div>
-        <span>Result: @result</span>
+        <span class="fw-bold">Result: @result</span>
     </div>
+    <br />
+    <button type="button" class="btn btn-outline-success ms-5" @onclick="Add">Add (+)</button>
+    <button type="button" class="btn btn-outline-primary ms-5" @onclick="Subtract">Subtract (-)</button>
+    <button type="button" class="btn btn-outline-info ms-5" @onclick="Multiply">Multiply (X)</button>
+    <button type="button" class="btn btn-outline-danger ms-5" @onclick="Divide">Divide (/)</button>
+    <button type="button" class="btn btn-light ms-5">Clear All</button>
 </div>
 
 @code {
