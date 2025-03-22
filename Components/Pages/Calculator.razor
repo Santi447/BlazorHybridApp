@@ -1,4 +1,10 @@
-﻿@page "/calculator"
+﻿@* Author:Santiago Pabon Date: 2025 - 03- 22. This Page in the applications is a calculator program that 
+allows for users to add, subtract, multiply, divide.
+it also handle exceptions that might popup during calculations, these include
+formatExceptions and divideByZeroException
+*@
+
+@page "/calculator"
 
 <h3 style ="color: lime;" class="fw-bold">Blazor Calculator</h3>
 <hr />
@@ -17,12 +23,12 @@
     <button type="button" class="btn btn-outline-primary ms-5" @onclick="Subtract">Subtract (-)</button>
     <button type="button" class="btn btn-outline-info ms-5" @onclick="Multiply">Multiply (X)</button>
     <button type="button" class="btn btn-outline-danger ms-5" @onclick="Divide">Divide (/)</button>
-    <button type="button" class="btn btn-light ms-5">Clear All</button>
+    <button type="button" class="btn btn-light ms-5" @onclick="clearScreen">Clear All</button>
 </div>
 
 @code {
-    private string input1;
-    private string input2;
+    private string? input1;
+    private string? input2;
     private double result;
 
     private void Add()
@@ -35,9 +41,9 @@
             result = Input1 + Input2;
 
         }
-        catch(FormatException ex)
+        catch(FormatException)
         {
-            App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+            App.Current.MainPage.DisplayAlert("Error:", "Please enter valid numbers.", "Ok");
         }
     }
 
@@ -50,9 +56,9 @@
             double Input2 = Convert.ToDouble(input2);
             result = Input1 - Input2;
         }
-        catch (FormatException ex)
+        catch (FormatException)
         {
-            App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+            App.Current.MainPage.DisplayAlert("Error:", "Please enter valid numbers.", "Ok");
         }
 
     }
@@ -67,9 +73,9 @@
             double Input2 = Convert.ToDouble(input2);
             result = Input1 * Input2;
         }
-        catch (FormatException ex)
+        catch (FormatException)
         {
-            App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+            App.Current.MainPage.DisplayAlert("Error:", "Please enter valid numbers.", "Ok");
         }
     }
 
@@ -92,9 +98,18 @@
                 throw new DivideByZeroException();
             }
         }
-        catch(DivideByZeroException ex)
+        catch (FormatException)
         {
-            App.Current.MainPage.DisplayAlert("Error",ex.Message,"Ok");
+            App.Current.MainPage.DisplayAlert("Error:", "Please enter valid numbers.", "Ok");
         }
+        catch (DivideByZeroException)
+        {
+            App.Current.MainPage.DisplayAlert("Error:","Cannot divide by zero.","Ok");
+        }
+    }
+    public void clearScreen()
+    {
+        input1 = "";
+        input2 = "";
     }
 }
