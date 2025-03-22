@@ -21,45 +21,70 @@
 </div>
 
 @code {
-    private double input1;
-    private double input2;
+    private string input1;
+    private string input2;
     private double result;
 
-    private async void Add()
+    private void Add()
     {
         // TODO: Add exception handling for invalid input
         try
         {
+            double Input1 = Convert.ToDouble(input1);
+            double Input2 = Convert.ToDouble(input2);
+            result = Input1 + Input2;
 
-            result = input1 + input2;
         }
         catch(FormatException ex)
         {
-            await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+            App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
         }
     }
 
     private void Subtract()
     {
         // TODO: Add exception handling for invalid input
-        result = input1 - input2;
+        try
+        {
+            double Input1 = Convert.ToDouble(input1);
+            double Input2 = Convert.ToDouble(input2);
+            result = Input1 - Input2;
+        }
+        catch (FormatException ex)
+        {
+            App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+        }
+
     }
 
     private void Multiply()
     {
         // TODO: Add exception handling for invalid input
-        result = input1 * input2;
+        try
+        {
+
+            double Input1 = Convert.ToDouble(input1);
+            double Input2 = Convert.ToDouble(input2);
+            result = Input1 * Input2;
+        }
+        catch (FormatException ex)
+        {
+            App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+        }
     }
 
-    private async void Divide()
+    private void Divide()
     {
 
         // TODO: Add exception handling for division by zero and invalid input
         try
         {
-            if (input2 != 0)
+            double Input1 = Convert.ToDouble(input1);
+            double Input2 = Convert.ToDouble(input2);
+            double Result = Convert.ToDouble(result);
+            if (Input2 != 0)
             {
-                result = input1 / input2;
+                Result = Input1 / Input2;
             }
             else
             {
@@ -69,7 +94,7 @@
         }
         catch(DivideByZeroException ex)
         {
-            await App.Current.MainPage.DisplayAlert("Error",ex.Message,"Ok");
+            App.Current.MainPage.DisplayAlert("Error",ex.Message,"Ok");
         }
     }
 }
